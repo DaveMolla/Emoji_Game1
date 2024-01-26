@@ -3,39 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
 
 
-function Login() {
+function Register() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         try {
-            const response = await fetch('http://localhost:3002/login', {
+            const response = await fetch('/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ phone_number: phoneNumber, password }),
             });
-    
+
             if (response.ok) {
-                const data = await response.json();
-                console.log('Login successful', data);
+                console.log('Registration successful');
                 navigate('/game');
             } else {
-                console.log('Login failed', response.status);
+                console.log('Registration failed');
             }
         } catch (error) {
-            console.error('There was an error logging in:', error);
+            console.error('There was an error registering:', error);
         }
     };
-    
 
     return (
         <div className={styles.formContainer}>
-            <h2 className={styles.formTitle}>Login</h2>
+            <h2 className={styles.formTitle}>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <label className={styles.formLabel}>Phone Number:</label>
@@ -55,10 +52,11 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button className={styles.submitButton} type="submit">Login</button>
+                <button className={styles.submitButton} type="submit">Register</button>
             </form>
         </div>
     );
+    
 }
 
-export default Login;
+export default Register;
